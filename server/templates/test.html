@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8000/ws")
+
+        ws.onmessage = (e)=>{
+        const data = JSON.parse(e.data)
+        console.log(data)
+
+        if(data.type==="welcome"){
+            ws.send(JSON.stringify({
+                type:"subscribe",
+                symbols:["BTC", "ETH"]
+            }))
+        }
+        }
+    </script>
+    
+</body>
+</html>

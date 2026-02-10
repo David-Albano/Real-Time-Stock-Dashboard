@@ -1,0 +1,25 @@
+
+.container{
+  max-width:900px;
+  margin:60px auto;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:#111827;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.price{
+  font-size:32px;
+  font-weight:bold;
+  margin-top:10px;
+  color:#4ade80;
+}
