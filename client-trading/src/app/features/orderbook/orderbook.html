@@ -1,0 +1,19 @@
+<div class="orderbook">
+
+  <div class="asks">
+    <div class="row" *ngFor="let a of asks()">
+      <span class="price sell">{{a[0]}}</span>
+      <span>{{a[1]}}</span>
+    </div>
+  </div>
+
+  <div class="divider">ORDERBOOK</div>
+
+  <div class="bids">
+    <div class="row" *ngFor="let b of bids()">
+      <span class="price buy">{{b[0]}}</span>
+      <span>{{b[1]}}</span>
+    </div>
+  </div>
+
+</div>

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class WebsocketService {
 
   private ws?: WebSocket;
-  private url = 'ws://localhost:8000/ws';
+  private url = 'http://localhost:8000/market/ws';
 
   // stream for all incoming messages
   private messageSubject = new Subject<any>();
@@ -48,22 +48,32 @@ export class WebsocketService {
     };
   }
 
-  send(data: any) {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
-    this.ws.send(JSON.stringify(data));
+  // send(data: any) {
+  //   if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+  //   this.ws.send(JSON.stringify(data));
+  // }
+
+    send(data:any){
+    if(this.ws && this.ws.readyState === WebSocket.OPEN){
+      this.ws.send(JSON.stringify(data));
+    }
   }
 
   subscribe(symbols: string[]) {
-    this.send({
-      type: "subscribe",
-      symbols
-    });
+    this.send(
+        {
+        type: "subscribe",
+        symbols
+        }
+    );
   }
 
   unsubscribe(symbols: string[]) {
-    this.send({
-      type: "unsubscribe",
-      symbols
-    });
+    this.send(
+        {
+        type: "unsubscribe",
+        symbols
+        }
+    );
   }
 }

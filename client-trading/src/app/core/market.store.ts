@@ -9,12 +9,12 @@ export class MarketStore {
   prices = signal<Record<string, number>>({});
 
   constructor(private ws: WebsocketService) {
-    this.ws.messages$.subscribe(msg => {
+    this.ws.messages$.subscribe(payloadMsg => {
 
-      if (msg.type === 'price_update') {
+      if (payloadMsg.type === 'price_update') {
         this.prices.update(p => ({
           ...p,
-          [msg.symbol]: msg.price
+          [payloadMsg.symbol]: payloadMsg.price
         }));
       }
 
@@ -28,4 +28,5 @@ export class MarketStore {
   subscribe(symbols: string[]) {
     this.ws.subscribe(symbols);
   }
+  
 }

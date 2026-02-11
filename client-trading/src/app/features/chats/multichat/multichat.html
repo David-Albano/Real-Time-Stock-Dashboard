@@ -1,0 +1,13 @@
+<div class="chat">
+  <div class="messages-section">
+    <div *ngFor="let m of payloadMessages">
+      <b class="username{{ m.isOwnMessage }}" *ngIf="m.type === 'chat'">{{m.username}}:</b>
+      {{m.message}}
+    </div>
+  </div>
+
+    <div class="input-section">
+      <input [(ngModel)]="text" placeholder="message">
+      <button (click)="send()">Send</button>
+    </div>
+</div>

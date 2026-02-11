@@ -1,0 +1,36 @@
+.orderbook{
+  width:280px;
+  height: 570px;
+  background:#020617;
+  padding:15px;
+  border-radius:12px;
+  font-family:monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:3px 0;
+}
+
+.price{
+  font-size: 14px;
+  font-weight:bold;
+}
+
+.sell{
+  color:#f87171;
+}
+
+.buy{
+  color:#4ade80;
+}
+
+.divider{
+  text-align:center;
+  margin:6px 0;
+  opacity:.5;
+}

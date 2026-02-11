@@ -90,8 +90,9 @@ class WebSocketManager:
 
 
     # -------------------------
-    # BROADCAST PER SYMBOL
+    # BROADCASTS
     # -------------------------
+
 
     async def broadcast_price(self, symbol: str, price: float):
         if symbol not in self.symbols_subscribers:
@@ -149,3 +150,24 @@ class WebSocketManager:
         for dc in dead_clients:
             self.disconnect(dc)
 
+
+    async def broadcast_orderbook(self, symbol: str, payload: dict):
+        if symbol not in self.symbols_subscribers: return
+
+        dead_clients = []
+
+        for client_id in self.symbols_subscribers[symbol]:
+            ws = self.connected_clients.get(client_id)
+
+            if not ws: continue
+
+
+            try:
+                await ws.send_json(payload)
+            
+            except:
+                dead_clients.append(client_id)
+
+        
+        for dc in dead_clients:
+            self.disconnect(dc)
