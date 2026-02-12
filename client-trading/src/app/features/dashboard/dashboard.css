@@ -1,12 +1,13 @@
 
 .container{
-  margin: 35px auto;
+  margin: 100px auto;
   padding: 0 20px;
 }
 
 .live-market-title {
   width: fit-content;
   margin: 0 auto;
+  color: #fff;
 }
 
 .grid{
@@ -28,6 +29,7 @@
   padding-left: 20px;
   border-radius:14px;
   box-shadow:0 20px 40px rgba(0,0,0,0.4);
+  color: #fff;
 }
 
 .price{

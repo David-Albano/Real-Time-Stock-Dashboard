@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, tap, catchError, of, finalize } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { BehaviorSubject, tap, catchError, of, finalize, throwError } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
 
     private userSubject = new BehaviorSubject<any>(null);
 
-    constructor(private http: HttpClient) {};
+    constructor(private http: HttpClient, private routerAux: Router) {};
 
     // login
     login(email: string, password: string) {
@@ -24,6 +25,9 @@ export class AuthService {
         ).pipe(
             tap(res => {
                 this.userSubject.next(res.user);
+            }),
+            catchError((err: HttpErrorResponse) => {
+                return throwError(() => err);
             })
         );
     };
@@ -63,19 +67,25 @@ export class AuthService {
     }
 
     clearSession() {
-        // not tokens stored on this.localStorage, but just in case
+        // tokens are not stored on localStorage, but just in case
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
 
         this.userSubject.next(null);
+        this.routerAux.navigate(['/login'])
     }
 
-    get currentUser() {
+    currentUser() {
+        if (!this.isLoggedIn()) {
+            this.routerAux.navigate(['/login'])
+        }
+
+        return true
+    }
+
+    isLoggedIn() {
+        console.log('this.userSubject.value: ', this.userSubject.value)
         return this.userSubject.value;
-    }
-
-    get isLoggedIn() {
-        return !!this.userSubject.value;
     }
 
 }

@@ -25,6 +25,10 @@
   color:#f87171;
 }
 
+.ind {
+  color: #fff;
+}
+
 .buy{
   color:#4ade80;
 }
@@ -32,5 +36,6 @@
 .divider{
   text-align:center;
   margin:6px 0;
+  color: #fff;
   opacity:.5;
 }

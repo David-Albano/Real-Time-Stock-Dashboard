@@ -1,0 +1,13 @@
+<nav class="navbar">
+  <div class="logo">
+    <span>TradeSphere</span>
+  </div>
+
+  <ul class="nav-links">
+    <li (click)="navigate('dashboard')">Dashboard</li>
+    <li (click)="navigate('chat')">Chat</li>
+    <li (click)="navigate('news')">News</li>
+    <hr class="logout-divider">
+    <li (click)="executeLogout()" class="logout-li">Log out</li>
+  </ul>
+</nav>

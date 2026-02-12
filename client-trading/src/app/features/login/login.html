@@ -1,0 +1,45 @@
+<div class="login-wrapper">
+  <!-- Background animated gradient -->
+  <div class="background-glow"></div>
+
+  <!-- Login Card -->
+  <div class="login-card">
+    
+    <div class="logo-section">
+      <div class="logo-circle">📈</div>
+      <h1>TradeSphere</h1>
+      <p>Advanced Trading Dashboard</p>
+    </div>
+
+    <form (ngSubmit)="executeLogin(email, password)">
+      
+      <div class="input-group">
+        <label>Email</label>
+        <input 
+          name="email"
+          [(ngModel)]="email"
+          type="email" 
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input 
+          name="password"
+          [(ngModel)]="password"
+          type="password" 
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <button class="login-btn" type="submit">
+        Login
+      </button>
+
+    </form>
+
+  </div>
+</div>

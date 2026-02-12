@@ -22,7 +22,11 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
 # login
 @router.post('/login')
-def login(user: UserLogin, response: Response, db: Session = Depends(get_db)):
+def login(user: UserLogin, request: Request, response: Response, db: Session = Depends(get_db)):
+
+    if request.cookies.get('access_token', None) and request.cookies.get('refresh_token', None):
+        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = 'A session already exist.')
+
     db_user = authenticate_user(db, user.email, user.password)
 
     if not db_user:
@@ -59,6 +63,10 @@ def login(user: UserLogin, response: Response, db: Session = Depends(get_db)):
 
 @router.post('/logout')
 def logout(request: Request, response: Response, db: Session = Depends(get_db)):
+
+    if not request.cookies.get('access_token', None) or not request.cookies.get('refresh_token', None):
+        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "You're already logged out.")
+    
     response.delete_cookie('access_token')
     response.delete_cookie('refresh_token')
 
