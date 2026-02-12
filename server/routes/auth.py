@@ -5,7 +5,7 @@ from schemas.user import UserCreate, UserLogin, UserResponse, RefreshRequest
 from services.user_service import create_user, authenticate_user, create_refresh_token_for_user, get_user_by_refresh_token, delete_refresh_token
 from core.security import create_access_token, create_refresh_token
 from core.dependencies import get_current_user, set_session_cookies
-from models.user import User
+from models.user import User, RefreshToken
 
 router = APIRouter()
 
@@ -53,6 +53,24 @@ def login(user: UserLogin, response: Response, db: Session = Depends(get_db)):
             'username': db_user.username,
         }
     }
+
+
+# logout
+
+@router.post('/logout')
+def logout(request: Request, response: Response, db: Session = Depends(get_db)):
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+
+    refresh_token = request.cookies.get('refresh_token')
+
+    token = db.query(RefreshToken).filter(RefreshToken.token == refresh_token).first()
+
+    if token:
+        db.delete(token)
+        db.commit()
+
+    return {'message': 'Logged out'}
 
 
 

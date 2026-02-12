@@ -1,13 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Dashboard } from './features/dashboard/dashboard';
 import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: '<button (click)="executeLogin()">Log In</button> <br/><br/> <button (click)="getData()">Get Data</button>',
+  // templateUrl: './app.html',
+  template: `<button (click)="executeLogin()">Log In</button>
+            <br/><br/>
+            <button (click)="getData()">Get Data</button>
+            <br/><br/>
+            <button (click)="executeLogout()">Log out</button>`,
   styleUrl: './app.css'
 })
 export class App {
@@ -17,6 +21,10 @@ export class App {
 
   executeLogin() {
       this.authServiceAux.login('first.admin.user@mail.com','admin').subscribe(res => console.log('\nSuccess ===>: ',res));
+  }
+
+  executeLogout() {
+      this.authServiceAux.logout().subscribe(res => console.log('\nSuccess ===>: ',res));
   }
 
   getData() {

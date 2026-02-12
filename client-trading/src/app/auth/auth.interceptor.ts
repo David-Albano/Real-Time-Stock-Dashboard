@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, throwError, switchMap, catchError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, filter, take, switchMap, catchError, retry } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,7 +14,9 @@ import { HttpClient } from '@angular/common/http';
 export class AuthInterceptor implements HttpInterceptor {
 
   private url = 'http://localhost:8000/auth';
+
   private isRefreshing = false;
+  private refreshSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private authServiceAux: AuthService, private http: HttpClient) {}
 
@@ -30,31 +32,52 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(cloned).pipe(
 
       catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            return this.handle401Error(req, next);
+          }
 
-        if (error.status === 401 && !this.isRefreshing) {
-          this.isRefreshing = true;
-
-          return this.http.post(
-                `${this.url}/refresh`,
-                {},
-                { withCredentials: true }
-            ).pipe(
-                switchMap(() => {
-                    this.isRefreshing = false;
-
-                    // retry original request
-                    return next.handle(req.clone({ withCredentials: true }));
-                }),
-                catchError(err => {
-                    this.isRefreshing = false;
-                    this.authServiceAux.logout();
-                    return throwError(() => err);
-                })
-            );
-        }
-
-        return throwError(() => error);
+          return throwError(() => error);
       })
     );
-  }
+  };
+
+
+  private handle401Error(req: HttpRequest<any>, next: HttpHandler) {
+        if (!this.isRefreshing) {
+          this.isRefreshing = true;
+          this.refreshSubject.next(false);
+
+          return this.http.post(
+
+              `${this.url}/refresh`,
+              {},
+              {withCredentials: true}
+
+          ).pipe(
+              switchMap(() => {
+                this.isRefreshing = false;
+                this.refreshSubject.next(true);
+                
+                // retry original request
+                return next.handle(req.clone({withCredentials: true}))
+              }),
+
+              catchError(err => {
+                this.isRefreshing = false;
+                this.authServiceAux.logout();
+
+                return throwError(() => err);
+              })
+
+            )
+        };
+
+        return this.refreshSubject.pipe(
+          filter(success => success === true),
+          take(1),
+          switchMap(() => {
+            return next.handle(req.clone({withCredentials: true}));
+          })
+        )
+    }
 }

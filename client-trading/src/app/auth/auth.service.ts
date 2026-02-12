@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, tap, catchError, of } from "rxjs";
+import { BehaviorSubject, tap, catchError, of, finalize } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -53,8 +53,21 @@ export class AuthService {
 
     // logout
     logout() {
+        return this.http.post(
+            `${this.url}/logout`,
+            {},
+            { withCredentials: true }
+        ).pipe(
+            finalize(() => this.clearSession())
+        )
+    }
+
+    clearSession() {
+        // not tokens stored on this.localStorage, but just in case
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+
         this.userSubject.next(null);
-        // implement backend logout later 
     }
 
     get currentUser() {
