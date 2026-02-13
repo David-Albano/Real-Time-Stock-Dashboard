@@ -20,13 +20,14 @@ export const routes: Routes = [
     {
         path: '',
         component: MainLayout,
-        canActivate: [authGuard],
+        canMatch: [authGuard],
         children: [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: Home },
             { path: 'dashboard', component: Dashboard },
         ]
     },
 
-    { path: '**', redirectTo: 'login' }
+    { path: '**', redirectTo: 'home' }
 
 ];

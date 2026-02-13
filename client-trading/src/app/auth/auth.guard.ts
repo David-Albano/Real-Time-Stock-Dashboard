@@ -1,9 +1,9 @@
 import { inject } from "@angular/core";
-import { CanActivateFn, Router } from "@angular/router";
+import { CanMatchFn, Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 import { catchError, map, of } from "rxjs";
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard: CanMatchFn = () => {
 
     const authServiceAux = inject(AuthService);
     const routerAux = inject(Router);
@@ -16,18 +16,18 @@ export const authGuard: CanActivateFn = () => {
                 return true;
             }
             console.log('NOT LOGGED IN!!')
-            routerAux.navigate(['/login']);
-            return false;
+            
+            return routerAux.createUrlTree(['/login']);
         }),
         catchError(() => {
             console.log('ERROR -- NOT LOGGED IN!!')
-            routerAux.navigate(['/login']);
-            return of(false);
+            ;
+            return of(routerAux.createUrlTree(['/login']));
         })
     )
 }
 
-export const authKeep: CanActivateFn = () => {
+export const authKeep: CanMatchFn = () => {
 
     const authServiceAux = inject(AuthService);
     const routerAux = inject(Router);
@@ -38,7 +38,7 @@ export const authKeep: CanActivateFn = () => {
         map(user => {
             console.log('user 22222222222: ', user)
             if (user) {
-                routerAux.navigate(['/home']);
+                routerAux.createUrlTree(['/home']);
                 return true;
             }
 

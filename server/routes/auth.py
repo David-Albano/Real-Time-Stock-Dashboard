@@ -38,8 +38,7 @@ def login(user: UserLogin, request: Request, response: Response, db: Session = D
     refresh_token = create_refresh_token()
 
     # Save refresh token in db
-
-    create_refresh_token_for_user(db, db_user.id, refresh_token)
+    create_refresh_token_for_user(db, db_user.id, refresh_token, None)
 
     
     # set cookies (httpOnly)
@@ -106,10 +105,10 @@ def refresh_token(request: Request, response: Response, db: Session = Depends(ge
         raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = 'Invalid refresh token')
     
     # Rotate refresh token (security)
-    delete_refresh_token(db, refresh_token)
+    old_token_expires_at = delete_refresh_token(db, refresh_token)
 
     new_refresh_token = create_refresh_token()
-    create_refresh_token_for_user(db, user.id, new_refresh_token)
+    create_refresh_token_for_user(db, user.id, new_refresh_token, old_token_expires_at)
 
     # New access token
     new_access_token = create_access_token({'sub': user.email})

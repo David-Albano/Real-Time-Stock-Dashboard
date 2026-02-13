@@ -3,6 +3,7 @@ from models.user import User, RefreshToken
 from core.security import hash_password, verify_password
 from datetime import datetime, timedelta
 from core.config import REFRESH_TOKEN_EXPIRE_DAYS
+from settings import EXTENDED_REFRESH_TOKEN_EXPIRATION
 
 
 def create_user(db: Session, email: str, username: str, password: str):
@@ -38,14 +39,14 @@ def authenticate_user(db: Session, email: str, password: str):
     return user
 
 
-def create_refresh_token_for_user(db: Session, user_id: int, token: str):
+def create_refresh_token_for_user(db: Session, user_id: int, token: str, old_token_expires_at: any):
 
     expires = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
 
     refresh = RefreshToken(
-        token=token,
-        user_id=user_id,
-        expires_at=expires
+        token = token,
+        user_id = user_id,
+        expires_at = expires if EXTENDED_REFRESH_TOKEN_EXPIRATION else old_token_expires_at if old_token_expires_at else expires
     )
 
     db.add(refresh)
@@ -76,8 +77,11 @@ def get_user_by_refresh_token(db: Session, token: str):
 def delete_refresh_token(db: Session, token: str):
 
     refresh_token = db.query(RefreshToken).filter(RefreshToken.token == token).first()
+    token_expiration = refresh_token.expires_at if not EXTENDED_REFRESH_TOKEN_EXPIRATION else None
 
     if refresh_token:
         db.delete(refresh_token)
         db.commit()
+
+        return token_expiration
         
