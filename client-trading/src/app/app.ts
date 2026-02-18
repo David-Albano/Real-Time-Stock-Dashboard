@@ -15,10 +15,4 @@ export class App {
   constructor(private authServiceAux: AuthService, private routerAux: Router) {
   }
 
-  getData() {
-      this.authServiceAux.fetchMe().subscribe(res => console.log('\nSuccess ===>: ',res))
-    }
-    
-  ngOnInit() {}
-
 }
