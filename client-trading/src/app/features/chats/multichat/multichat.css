@@ -1,6 +1,6 @@
 /* Container */
 .chat {
-    height: 570px;
+    height: 610px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
