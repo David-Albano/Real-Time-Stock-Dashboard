@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
-import { authGuard, authKeep } from './auth/auth.guard';
+import { authGuard } from './auth/auth.guard';
 import { PublicLayout } from './layouts/PublicLayout/PublicLayout';
 import { MainLayout } from './layouts/MainLayout/MainLayout';
 import { Home } from './layouts/MainLayout/home/home';
@@ -12,6 +12,7 @@ export const routes: Routes = [
         path: '',
         component: PublicLayout,
         children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
             { path: 'login', component: Login },
         ]
     },
