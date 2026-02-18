@@ -6,7 +6,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-chart',
   standalone: true,
-  templateUrl: './chart.html'
+  templateUrl: './chart.html',
+  styleUrl: './chart.css'
 })
 export class Chart implements AfterViewInit {
 
@@ -15,6 +16,8 @@ export class Chart implements AfterViewInit {
   private chart: any;
   private candleSeries: any;
   private sub: Subscription | null = null;
+
+  symbolsOptions = ['BTC','ETH','SOL']
 
   selectedSymbol = signal("BTC");
 
@@ -47,7 +50,7 @@ export class Chart implements AfterViewInit {
           horzLines: { color: '#1f2937' }
         },
         width: 1000,
-        height: 460,
+        height: 520,
       });
 
       this.candleSeries = this.chart.addSeries(CandlestickSeries);
