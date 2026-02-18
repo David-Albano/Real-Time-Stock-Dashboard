@@ -1,34 +1,36 @@
 <div class="container">
-    <div class="live-market-title">
-        <h1>Live Market</h1>
-    </div>
+    <div class="dashboards-wrapper">
 
-    <div class="grid">
-        <div class="card" *ngFor="let item of prices() | keyvalue">
-            <div class="symbol-name">
-                <h2> {{item.key}} </h2>
-            </div>
-            <div class="price"> {{item.value | number:'1.2-2'}} </div>
+        <div class="live-market-title">
+            <h1>Live Market</h1>
         </div>
-    </div>
-
-    <hr style="width: 50%;">
-    <br>
-
-    <div class="multi-section">
-
-        <app-multichat></app-multichat>
-        
-        <div class="candle-stick-chart">
-            <h1 style="color: #fff;">Trading Dashboard</h1>
-            <app-chart></app-chart>
-        </div>
-
-        <app-orderbook></app-orderbook>
-
-    </div>
-
     
+        <div class="grid">
+            <div class="card" *ngFor="let item of prices() | keyvalue">
+                <div class="symbol-name">
+                    <h2> {{item.key}} </h2>
+                </div>
+                <div class="price"> {{item.value | number:'1.2-2'}} </div>
+            </div>
+        </div>
+    
+        <br>
+        <br>
+    
+        <div class="multi-section">
+    
+            <app-multichat></app-multichat>
+            
+            <div class="candle-stick-chart">
+                <h1 style="color: #fff;">Trading Dashboard</h1>
+                <app-chart></app-chart>
+            </div>
+    
+            <app-orderbook></app-orderbook>
+    
+        </div>
+
+    </div>
     
 </div>
 

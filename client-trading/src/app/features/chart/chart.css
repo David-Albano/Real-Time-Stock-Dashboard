@@ -1,0 +1,33 @@
+.symbol-switcher {
+  margin-top: 8px;
+  margin-right: 8px;
+  height: 35px;
+  width: 65px;
+  display: inline-flex;
+  background: #111827;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
+}
+
+.symbol-switcher button {
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.symbol-switcher button:hover {
+  background: #1f2937;
+  color: #16a139;
+}
+
+.symbol-switcher button.active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}

@@ -1,9 +1,14 @@
 
-<div #chartContainer style="height:460px;"></div>
+<div #chartContainer style="height:520px;"></div>
 <hr>
 
-<div>
-    <button (click)="switchSymbol('BTC')">BTC</button>
-    <button (click)="switchSymbol('ETH')">ETH</button>
-    <button (click)="switchSymbol('SOL')">SOL</button>
-</div>
+@for (s of symbolsOptions; track s) {
+  <div
+    class="symbol-switcher"
+    (click)="switchSymbol(s)"
+    >
+      <button >
+        {{ s }}
+      </button>
+  </div>
+}

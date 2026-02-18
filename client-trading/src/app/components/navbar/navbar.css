@@ -1,7 +1,7 @@
 .navbar {
   position: sticky;
   top: 0;
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,6 +21,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
+  transition: 0.3s ease-in;
+}
+
+.logo:hover {
+  transform: scale(1.04);
+  transition: 0.4s ease-out;
 }
 
 .nav-links {
@@ -59,6 +65,7 @@
   position: relative;
   width: 40px;
   height: 0;
+  align-self: center;
   rotate: calc(90deg);
 }
 
