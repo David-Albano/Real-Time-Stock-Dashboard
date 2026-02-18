@@ -67,7 +67,7 @@ export class AuthService {
     }
 
     clearSession() {
-        // tokens are not stored on localStorage, but just in case
+        // tokens are not stored on localStorage, just in cookies on backend, but just in case
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
 
@@ -85,7 +85,7 @@ export class AuthService {
 
     isLoggedIn() {
         console.log('this.userSubject.value: ', this.userSubject.value)
-        return this.userSubject.value;
+        return !!this.userSubject.value;
     }
 
 }
