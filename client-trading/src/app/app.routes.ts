@@ -5,6 +5,7 @@ import { authGuard } from './auth/auth.guard';
 import { PublicLayout } from './layouts/PublicLayout/PublicLayout';
 import { MainLayout } from './layouts/MainLayout/MainLayout';
 import { Home } from './layouts/MainLayout/home/home';
+import { News } from './features/news/news';
 
 export const routes: Routes = [
     // public routes
@@ -26,6 +27,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: Home },
             { path: 'dashboard', component: Dashboard },
+            { path: 'news', component: News },
         ]
     },
 
