@@ -1,0 +1,44 @@
+<div class="container">
+
+    <h1 class="news-title">Trading Intelligence</h1>
+
+    <div class="cards">
+
+        <div class="card" (click)="fetch('crypto')">
+            <h3>Crypto News</h3>
+            <button>Fetch</button>
+        </div>
+
+        <div class="card" (click)="fetch('forex')">
+            <h3>Forex News</h3>
+            <button>Fetch</button>
+        </div>
+
+        <div class="card" (click)="fetch('stocks')">
+            <h3>Stock Market</h3>
+            <button>Fetch</button>
+        </div>
+
+        <div class="card" (click)="fetch('commodities')">
+            <h3>Commodities</h3>
+            <button>Fetch</button>
+        </div>
+
+        <div class="card" (click)="fetch('technology')">
+            <h3>Tech News</h3>
+            <button>Fetch</button>
+        </div>
+
+    </div>
+
+    <div class="status">
+        <b>Status:</b> {{state}}...
+    </div>
+
+    <div class="summary" *ngIf="summary">
+        <h2>AI Summary:</h2>
+        <br>
+        <p>{{summary}}</p>
+    </div>
+
+</div>
